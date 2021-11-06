@@ -1,17 +1,17 @@
 
-import com.gmail.elbaglikov.Resulter;
+import com.gmail.elbaglikov.Printer;
+import com.gmail.elbaglikov.model.ExpressionCalculator;
 
 import java.io.*;
 
 public class Runner {
     public static void main(String[] args) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
-            Resulter resulter = new Resulter();
+        Printer printer = new Printer();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String line = reader.readLine();
-            resulter.write(line, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
+            printer.print(String.valueOf(ExpressionCalculator.calculate(line)));
+        } catch (IOException | IllegalArgumentException e) {
+            printer.print(e.getMessage());
         }
     }
 }

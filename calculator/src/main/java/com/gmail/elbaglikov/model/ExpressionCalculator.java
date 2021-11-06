@@ -9,7 +9,7 @@ import static com.gmail.elbaglikov.Constants.WRONG_SYMBOLS;
 public class ExpressionCalculator {
     public static double calculate(String expression) {
         expression = expression.replaceAll(" ", "");
-        if (!expression.matches("[\\d\\.\\-\\+\\/\\*\\(\\)]+")) {
+        if (!expression.matches("^\\-?[\\d\\.\\-\\+\\/\\*\\(\\)]+")) {
             throw new IllegalArgumentException(WRONG_SYMBOLS);
         }
         expression = solveExpression(expression);
