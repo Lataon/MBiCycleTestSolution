@@ -1,0 +1,42 @@
+import com.gmail.elbaglikov.Server;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+
+import static org.junit.Assert.*;
+
+public class RunnerTest {
+
+    @Before
+    public void before() {
+        Server server = new Server(8080);
+        Thread serverStarter = new Thread(server);
+        serverStarter.start();
+    }
+
+    @Test
+    public void connectionToServerTest() throws IOException {
+        InetAddress localAddress = InetAddress.getLocalHost();
+        try (Socket clientSocket = new Socket(localAddress, 8080);
+             PrintWriter out = new PrintWriter(
+                     clientSocket.getOutputStream(), true);
+             BufferedReader br = new BufferedReader(
+                     new InputStreamReader(
+                             clientSocket.getInputStream()))) {
+
+            String inputLine = "test server";
+            String expected = "response: " + inputLine;
+            out.println(inputLine);
+            String response = br.readLine();
+            System.out.println(response);
+            assertEquals(expected, response);
+        }
+    }
+
+}
